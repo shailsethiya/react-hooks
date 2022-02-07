@@ -18,9 +18,6 @@ const App = () =>  {
 
   return (
     <div className="App">
-      <header className="App-header">
-         Hello World
-      </header>
       <form onSubmit={handleSubmit}>
         <input type="text" name="firstName" value={inputField.firstName} onChange={handleText}/>
         <input type="text" name="lastName"  value={inputField.lastName} onChange={handleText}/>
