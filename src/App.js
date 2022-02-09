@@ -12,7 +12,11 @@ const App = () =>  {
   }
  
   useEffect(() => {
-    window.addEventListener('mousemove', logMousePosition)
+    window.addEventListener('mousemove', logMousePosition);
+    return () => {
+      console.log("window");
+      window.removeEventListener('mousemove', logMousePosition);
+    }
   }, [])
 
   return (
