@@ -3,12 +3,12 @@ import axios from 'axios';
 import './App.css';
 
 const App = () =>  {
-  const[post, setPost] = useState([]);
+  const[posts, setPost] = useState([]);
 
   useEffect(() => {
-    axios.post('https://jsonplaceholder.typicode.com/posts')
+    axios.get('https://jsonplaceholder.typicode.com/posts')
     .then((res) => {
-      setPost(res.data.id);     
+      setPost(res.data);     
     }).catch((err) => {
       console.log("err", err)
     })
@@ -17,7 +17,7 @@ const App = () =>  {
 
   return (
     <div className="App">
-      {post}
+    {posts.map((post) => (<li key={post.id}>{post.title}</li>))}
     </div>
   );
 }
