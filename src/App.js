@@ -2,22 +2,22 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 const App = () =>  {
-  const[x, setX] = useState(0);
-  const[y, setY] = useState(0);
+  const[count, setCount] = useState(0);
 
-  const logMousePosition = e => {
-    console.log("mouse event");
-    setX(e.clientX);
-    setY(e.clientY);
+  const tick = () => {
+    setCount(prevCount => prevCount + 1);
   }
- 
+
   useEffect(() => {
-    window.addEventListener('mousemove', logMousePosition)
+   let interval = setInterval(tick, 1000);
+  return () => {
+    clearInterval(interval);
+  }
   }, [])
 
   return (
     <div className="App">
-      Hooks X - {x} Y - {y}
+      {count}
     </div>
   );
 }
