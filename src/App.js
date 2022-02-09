@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 
 const App = () =>  {
-  const[count, setCount] = useState(0);
-
-  const tick = () => {
-    setCount(prevCount => prevCount + 1);
-  }
+  const[post, setPost] = useState([]);
 
   useEffect(() => {
-   let interval = setInterval(tick, 1000);
-  return () => {
-    clearInterval(interval);
-  }
+    axios.post('https://jsonplaceholder.typicode.com/posts')
+    .then((res) => {
+      setPost(res.data.id);     
+    }).catch((err) => {
+      console.log("err", err)
+    })
   }, [])
+
 
   return (
     <div className="App">
-      {count}
+      {post}
     </div>
   );
 }
