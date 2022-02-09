@@ -1,31 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 const App = () =>  {
-  const[inputField, setInputField] = useState({firstName : '', lastName: ''});
-    
-  const handleText = (e) => {
-    e.preventDefault();
-    setInputField((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value}))
-  }
+  const[x, setX] = useState(0);
+  const[y, setY] = useState(0);
 
-  const handleSubmit = (event) => {
-     event.preventDefault();
-     console.log(event);
+  const logMousePosition = e => {
+    console.log("mouse event");
+    setX(e.clientX);
+    setY(e.clientY);
   }
+ 
+  useEffect(() => {
+    window.addEventListener('mousemove', logMousePosition)
+  }, [])
 
   return (
     <div className="App">
-      <header className="App-header">
-         Hello World
-      </header>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="firstName" value={inputField.firstName} onChange={handleText}/>
-        <input type="text" name="lastName"  value={inputField.lastName} onChange={handleText}/>
-        <button type="submit"> Submit </button>
-      </form>
+      Hooks X - {x} Y - {y}
     </div>
   );
 }
