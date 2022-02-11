@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react';
 import './App.css';
 
-const intialState = 0;
+const initialState = 0;
 const reducer = (state, action) => {
   switch(action){
     case 'increment':
@@ -9,7 +9,7 @@ const reducer = (state, action) => {
     case 'decrement':
       return state - 1;
     case 'reset':
-      return intialState;
+      return initialState;
     default:
       return state;
   }
