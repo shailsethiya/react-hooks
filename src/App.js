@@ -1,29 +1,22 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 const App = () =>  {
-const [counterOne, setCounterOne] = useState(0);
-const [counterTwo, setCounterTwo] = useState(0);
+  const [timer, setTimer] = useState(0);
+  const inputRef = useRef();
 
-
-const incrementOne = () => {
-  setCounterOne(counterOne + 1);
-}
-
-const incrementTwo = () => {
-  setCounterTwo(counterTwo + 1);
-}
-
-const isEven =  useMemo(() => {
-  let i = 0;
-  while(i < 20000000) i++
-  return counterOne % 2 === 0
-}, [counterOne]);
+  useEffect(() => {
+    inputRef.current = setInterval(() => {
+     setTimer(prev => prev + 1)
+    }, 1000)
+    return () => {
+      clearInterval(inputRef.current)
+    };
+  }, [])
 
   return (
     <div className="App">
-     <button onClick={incrementOne}>First Count - {counterOne}</button>
-     <span>{isEven ? 'Even' : 'Odd' }</span>
-     <button onClick={incrementTwo}>Second Count - {counterTwo} </button>
+      Timer - {timer}
+      <button onClick={() => clearInterval(inputRef.current)}>Stop Timer</button>
     </div>
   );
 }
