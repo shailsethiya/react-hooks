@@ -1,39 +1,54 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import axios from 'axios';
 import './App.css';
 
 const initialState = {
-  firstCounter : 0,
-  secondCounter : 10
-};
-const reducer = (state, action) => {
-  switch(action.type){
-    case 'increment':
-      return { ...state, firstCounter: state.firstCounter + action.value };
-    case 'decrement':
-      return { ...state, firstCounter: state.firstCounter - action.value };
-    case 'increment2':
-      return { ...state, secondCounter: state.secondCounter + action.value };
-    case 'decrement2':
-      return { ...state, secondCounter: state.secondCounter - action.value };
-    case 'reset':
-      return initialState;
-    default:
-      return state;
-  }
+  loading : true,
+  error: '',
+  post: {},
 }
 
+const reducer = (state, action) => {
+   switch(action.type){
+      case 'FETCH_SUCCESS':
+      return {
+        loading: false,
+        post: action.payload,
+        error: ''
+      } 
+
+      case 'FETCH_ERROR':
+        return {
+          loading: false,
+          post: {},
+          error: 'something went wrong!!'
+        }
+      default:
+        return state
+   }
+};
+
+
+
+
 const App = () =>  {
-  const[count, dispatch] = useReducer(reducer, initialState);
+  const[state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    axios
+      .get('https://jsonplaceholder.typicode.com/posts/1')
+      .then(response => {
+        dispatch({type: 'FETCH_SUCCESS', payload: response.data})
+      })
+      .catch(error => {
+        dispatch({type: 'FETCH_ERROR'})
+      })
+  })
 
   return (
     <div className="App">
-      <div>First Count - {count.firstCounter} </div>
-      <div>Second Count - {count.secondCounter} </div>
-      <button onClick={() => dispatch({ type: 'increment', value: 1 })}>Increment</button>
-      <button onClick={() => dispatch({ type: 'decrement', value: 1 })}>Decrement</button>
-      <button onClick={() => dispatch({ type: 'increment2', value: 5 })}>Increment 5</button>
-      <button onClick={() => dispatch({ type: 'decrement2', value: 5 })}>Decrement 5</button>
-      <button onClick={() => dispatch({ type : 'reset'})}>Reset</button>
+      {state.loading? 'Loading' : state.post.title}
+      {state.error ? state.error : null}
     </div>
   );
 }
