@@ -1,22 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { DocTitleOne } from './DocTitleOne';
+import { DocTitleTwo } from './DocTitleTwo';
 
 const App = () =>  {
-  const [timer, setTimer] = useState(0);
-  const inputRef = useRef();
-
-  useEffect(() => {
-    inputRef.current = setInterval(() => {
-     setTimer(prev => prev + 1)
-    }, 1000)
-    return () => {
-      clearInterval(inputRef.current)
-    };
-  }, [])
 
   return (
     <div className="App">
-      Timer - {timer}
-      <button onClick={() => clearInterval(inputRef.current)}>Stop Timer</button>
+      <DocTitleOne />
+      <DocTitleTwo />
     </div>
   );
 }
