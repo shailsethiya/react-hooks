@@ -1,15 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useMemo } from 'react';
 
 const App = () =>  {
-const inputRef = useRef(null);
+const [counterOne, setCounterOne] = useState(0);
+const [counterTwo, setCounterTwo] = useState(0);
 
-useEffect(() => {
-   inputRef.current.focus();
-}, [])
+
+const incrementOne = () => {
+  setCounterOne(counterOne + 1);
+}
+
+const incrementTwo = () => {
+  setCounterTwo(counterTwo + 1);
+}
+
+const isEven =  useMemo(() => {
+  let i = 0;
+  while(i < 20000000) i++
+  return counterOne % 2 === 0
+}, [counterOne]);
 
   return (
     <div className="App">
-     <input type="text" ref={inputRef} />
+     <button onClick={incrementOne}>First Count - {counterOne}</button>
+     <span>{isEven ? 'Even' : 'Odd' }</span>
+     <button onClick={incrementTwo}>Second Count - {counterTwo} </button>
     </div>
   );
 }
